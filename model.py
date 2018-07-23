@@ -46,30 +46,6 @@ def inference(images, num_classes, for_training=False, scope=None, reuse=None):
 
     # Set weight_decay for weights in Conv and FC layers.
     endpoints = {}
-    # seg_num = tf.shape(images)[1]
-    # images = tf.reshape(images, [-1, cfg.IMAGE_HEIGHT, cfg.IMAGE_WIDTH, cfg.TRAIN.INPUT_CHS])
-    # with variable_scope.variable_scope(scope, 'InceptionV2', [images, num_classes], reuse=reuse) as scope:
-    #     with arg_scope([layers_lib.batch_norm], is_training=False):
-    #         net, end_points = nets.inception.inception_v2_base(images, scope=scope)
-    #         with variable_scope.variable_scope('Logits'):
-    #             shape = net.get_shape()
-    #             net = layers_lib.avg_pool2d(
-    #                 net,
-    #                 shape[1:3],
-    #                 padding='VALID',
-    #                 scope='AvgPool_1a_{}x{}'.format(*shape[1:3]))
-    #             # 1 x 1 x 1024
-    #             net = layers_lib.dropout(
-    #                 net, keep_prob=cfg.TRAIN.DROUPOUT_RATIO, is_training=for_training, scope='Dropout_1b')
-    #             logits = slim.conv2d(
-    #                 net,
-    #                 num_classes, [1, 1],
-    #                 activation_fn=None,
-    #                 normalizer_fn=None,
-    #                 scope='Conv2d_1c_1x1')
-    #             logits = tf.reshape(logits, (-1, seg_num, num_classes))
-    #             logits = tf.reduce_mean(logits, axis=1)
-    #             endpoints['logits'] = logits
 
     batch_norm_params = {
         'decay': BATCHNORM_MOVING_AVERAGE_DECAY,
@@ -93,38 +69,6 @@ def inference(images, num_classes, for_training=False, scope=None, reuse=None):
             logits = tf.reshape(logits, (-1, seg_num, num_classes))
             logits = tf.reduce_mean(logits, axis=1)
             endpoints['logits'] = logits
-
-    # with slim.arg_scope([slim.conv2d, slim.fully_connected, slim.batch_norm], trainable=for_training):
-    #     with slim.arg_scope([slim.conv2d, slim.fully_connected],
-    #                         weights_regularizer=slim.l2_regularizer(cfg.TRAIN.WEIGHT_DECAY),
-    #                         weights_initializer=slim.xavier_initializer()):
-    #         with slim.arg_scope([slim.conv2d],
-    #                             activation_fn=tf.nn.relu,
-    #                             normalizer_params=batch_norm_params,
-    #                             normalizer_fn=slim.batch_norm):
-    #
-    #             seg_num = tf.shape(images)[1]
-    #             images = tf.reshape(images, [-1, cfg.IMAGE_HEIGHT, cfg.IMAGE_WIDTH, cfg.TRAIN.INPUT_CHS])
-    #             net, endpoints = nets.inception.inception_v2_base(images, scope='InceptionV2')
-    #
-    #             with tf.variable_scope('logits'):
-    #                 shape = net.get_shape()
-    #                 net = slim.avg_pool2d(net, shape[1:3], padding='VALID', scope='avg_pool')
-    #
-    #                 # # release depth out
-    #                 # shape = net.get_shape()
-    #                 # net = tf.reshape(net, tf.stack([-1, seg_num, shape[1], shape[2], shape[3]]))
-    #                 # net = tf.reduce_mean(net, axis=1)
-    #
-    #                 net = slim.dropout(net, keep_prob=cfg.TRAIN.DROUPOUT_RATIO, is_training=for_training, scope='dropout')
-    #                 net = slim.flatten(net, scope='flatten')
-    #
-    #                 logits = slim.fully_connected(net, num_classes, activation_fn=None, scope='logits')
-    #                 logits = tf.reshape(logits, (-1, seg_num, num_classes))
-    #                 logits = tf.reduce_mean(logits, axis=1)
-    #                 # cls
-    #                 endpoints['logits'] = logits
-    #                 endpoints['predictions'] = tf.nn.softmax(logits, name='predictions')
 
     _activation_summaries(endpoints)
 

@@ -210,9 +210,8 @@ class TSNDataSet(data.Dataset):
 
 
 if __name__ == "__main__":
-    while True:
-        dataset = TSNDataSet(list_file, num_segments=3, new_length=1,
-                    modality='RGB', image_tmpl='img_{:05d}.jpg',
-                    random_shift=True, test_mode=False)
+    dataset = TSNDataSet(list_file, num_segments=3, new_length=1,
+                modality='RGB', image_tmpl='img_{:05d}.jpg',
+                random_shift=True, test_mode=False)
 
 
