@@ -15,7 +15,6 @@ import inception_model as inception
 import model as inception
 # import mymodel as inception
 from config import cfg
-from dataset_provider import DatasetProvider
 
 FLAGS = tf.app.flags.FLAGS
 

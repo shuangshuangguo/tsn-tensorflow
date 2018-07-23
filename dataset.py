@@ -1,17 +1,13 @@
 import copy
 import os
 import argparse
-import pickle
-import random
-import json
-import multiprocessing
 import numpy as np
 import cv2
 import math
-import time
-
+from numpy.random import randint
 from IPython import embed
 from config import cfg
+
 
 
 class VideoRecord(object):

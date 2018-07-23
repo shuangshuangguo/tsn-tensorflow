@@ -17,7 +17,6 @@ import tensorflow.contrib.slim as slim
 import model as inception
 # import mymodel as inception
 from config import cfg
-from dataset_provider import DatasetProvider
 
 tf.logging.set_verbosity(tf.logging.WARN)
 
