@@ -5,7 +5,7 @@ This is tensorflow implementation for TSN(Temporal Segment Networks)
 
 Each row in the dataset list file should contain following informathin:
 
-path num_frames, label
+path  num_frames  label
 
 ### 2. Training 
 ```bash
